@@ -6,7 +6,7 @@ A framework aimed at bridging experimental observations with computational mater
 - Python 3.11+
 - ASE (Atomic Simulation Environment)
 - OpenCV and Pillow for image processing
-- Transformer and model file
+- Transformers (https://pypi.org/project/transformers/) and model files (https://huggingface.co/google/gemma-3-12b-it)
 
 ## How to use
 
