@@ -44,7 +44,7 @@ if __name__ == "__main__":
                       print(f"\n[{i+1}] Claim:")
                       print(f"   {claim.get('claim', 'No claim text')}")
                       print(f"   Scientific Impact: {claim.get('scientific_impact', 'No impact specified')}")
-                      print(f"   Has Anyone Question: {claim.get('has_anyone_question', 'No question formulated')}")
+                      print(f"   Has Anyone Question: {claim.get('question', 'No question formulated')}")
                       print(f"   Keywords: {', '.join(claim.get('keywords', []))}")
                       print("-" * 70)
                   
