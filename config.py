@@ -6,8 +6,8 @@ import json
 IMAGE_PATH = "data/oxide_catalyst.npy"  # <<< SET PATH TO YOUR IMAGE
 SYSTEM_INFO_PATH = "data/oxide_catalyst.json"  # <<< SET PATH TO ASSOCIATE METADATA
 
-ANALYSIS_AGENT_MODEL = "gemini-2.5-pro-exp-03-25"  # Model for analysis step
-GENERATOR_AGENT_MODEL = "gemini-2.5-pro-exp-03-25"  # Model for structure generation step
+ANALYSIS_AGENT_MODEL = "gemma3_12B_local"  # Model for analysis step
+GENERATOR_AGENT_MODEL = "gemma3_12B_local"  # Model for structure generation step
 
 GENERATOR_ADDITIONAL_INSTRUCTIONS = "Save the structure in POSCAR format."
 
