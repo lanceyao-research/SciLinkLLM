@@ -70,12 +70,12 @@ You MUST output a valid JSON object containing two keys: "detailed_analysis" and
     * Surface adsorption sites
 
 2.  **scientific_claims**: (List of Objects) Generate 4-6 specific scientific claims based on your analysis that can be used to search literature for similar observations. Each object Must have the following keys:
-    * **claim**: (String) A single, focused scientific claim written as a complete sentence about a specific observation from the microscopy image.
-    * **scientific_impact**: (String) A brief explanation of why this claim would be scientifically significant if confirmed through literature search or further experimentation.
-    * **has_anyone_question**: (String) A direct question starting with "Has anyone" that reformulates the claim as a research question.
-    * **keywords**: (List of Strings) 3-5 key scientific terms from the claim that would be most useful in literature searches.
+    * **`claim` (String) :** A single, focused scientific claim written as a complete sentence about a specific observation from the microscopy image.
+    * **`scientific_impact` (String):**  A brief explanation of why this claim would be scientifically significant if confirmed through literature search or further experimentation.
+    * **`question` (String):**  A direct question starting with "Has anyone" that reformulates the claim as a research question.
+    * **`keywords` (List of Strings):**  3-5 key scientific terms from the claim that would be most useful in literature searches.
 
-Focus on formulating claims that are specific enough to be meaningfully compared against literature but general enough to have a reasonable chance of finding matches. Range from highly specific observations to more general trends that might connect to broader scientific understanding. The keys Must match the key names provided. Ensure the final output is ONLY the JSON object and nothing else.
+Focus on formulating claims that are specific enough to be meaningfully compared against literature but general enough to have a reasonable chance of finding matches. Range from highly specific observations to more general trends that might connect to broader scientific understanding. The keys MUST match the key names provided. Ensure the final output is ONLY the JSON object and nothing else.
 """
 
 
