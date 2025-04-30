@@ -242,8 +242,6 @@ class LocalMicroscopyAnalysisAgent:
              scientific_claims = [] # Treat as empty
 
         for claim in scientific_claims:
-            print(type(claim))
-            print(claim)
             if isinstance(claim, dict) and all(k in claim for k in ["claim", "scientific_impact", "has_anyone", "keywords"]):
                 # Optionally add validation for keywords being a list of strings etc.
                  valid_claims.append(claim)
