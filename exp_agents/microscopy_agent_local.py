@@ -8,7 +8,7 @@ import logging
 import numpy as np
 
 # Keep original instructions
-from .instruct import MICROSCOPY_ANALYSIS_INSTRUCTIONS, MICROSCOPY_CLAIMS_INSTRUCTIONS, FFT_NMF_PARAMETER_ESTIMATION_INSTRUCTIONS
+from .instruct import MICROSCOPY_ANALYSIS_INSTRUCTIONS, MICROSCOPY_CLAIMS_INSTRUCTIONS, FFT_NMF_PARAMETER_ESTIMATION_INSTRUCTIONS, DIFFRACTION_ANALYSIS_INSTRUCTIONS
 from .utils import load_image, preprocess_image, convert_numpy_to_jpeg_bytes, normalize_and_convert_to_image_bytes, normalize_and_convert_to_PIL
 from .fft_nmf_analyzer import SlidingFFTNMF
 
@@ -30,6 +30,83 @@ class LocalMicroscopyAnalysisAgent:
         self.RUN_FFT_NMF = self.fft_nmf_settings.get('FFT_NMF_ENABLED', False)
         self.FFT_NMF_AUTO_PARAMS = self.fft_nmf_settings.get('FFT_NMF_AUTO_PARAMS', False)
 
+    def _analyze_diffraction_base(self, image_path: str, system_info: dict | str | None, instruction_prompt: str) -> tuple[dict | None, dict | None]:
+        """
+        Internal helper method to handle common image analysis steps.
+        """
+        try:
+            
+            loaded_image = load_image(image_path)
+            preprocessed_img_array = preprocess_image(loaded_image)
+            image = Image.fromarray(preprocessed_img_array)
+
+            messages = [
+            {
+                "role": "system",
+                "content": [{"type": "text", "text": instruction_prompt}]
+            }]
+            user_messages = []
+            analysis_request_text = "\nPlease analyze the following microscopy image"
+            if system_info: analysis_request_text += " using the additional context provided."
+            user_messages.append({"type": "text", "text": analysis_request_text})
+            user_messages.append({"type": "image", "image": image})
+
+            if system_info:
+                system_info_text = "\n\nAdditional System Information:\n"
+                if isinstance(system_info, str):
+                    try: system_info_text += json.dumps(json.loads(system_info), indent=2)
+                    except json.JSONDecodeError: system_info_text += system_info
+                elif isinstance(system_info, dict): system_info_text += json.dumps(system_info, indent=2)
+                else: system_info_text += str(system_info)
+                user_messages.append({"type": "text", "text": system_info_text}) 
+                
+            user_messages.append({"type": "text", "text": "\n\nProvide your analysis strictly in the requested JSON format."}) 
+            
+            messages.append({
+                "role": "user",
+                "content": user_messages
+            })
+            
+            # 4. Call LLM API
+            inputs = self.processor.apply_chat_template(
+                messages, add_generation_prompt=True, tokenize=True,
+                return_dict=True, return_tensors="pt"
+            ).to(self.model.device, dtype=torch.bfloat16)
+
+            input_len = inputs["input_ids"].shape[-1]
+
+            with torch.inference_mode():
+                generation = self.model.generate(**inputs, max_new_tokens=2000, do_sample=False)
+                generation = generation[0][input_len:]
+
+            response = self.processor.decode(generation, skip_special_tokens=True)
+            print('Gemma3 output: ')
+            print(response)
+            
+            raw_text = response
+            # Attempt to parse the JSON payload (API should enforce this)
+            if "json" in raw_text:
+                print("Warning: Removing unexpected 'json' from LLM output.")
+                raw_text = raw_text.replace("json", "")
+
+            if "```" in raw_text:
+                print("Warning: Removing Markdown code block backticks (``` ) from LLM output.")
+                raw_text = raw_text.replace("```", "")
+
+            result_json = json.loads(raw_text) 
+            return result_json
+            
+        except FileNotFoundError:
+            self.logger.error(f"Image file not found: {image_path}")
+            return None, {"error": "Image file not found", "details": f"Path: {image_path}"}
+        except ImportError as e:
+             self.logger.error(f"Missing dependency: {e}")
+             return None, {"error": "Missing dependency", "details": str(e)}
+        except Exception as e:
+            # Catch errors during image loading/preprocessing or FFT/NMF setup
+            self.logger.exception(f"An unexpected error occurred before LLM call: {e}")
+            return None, {"error": "An unexpected error occurred during analysis setup", "details": str(e)}
+            
     def _analyze_image_base(self, image_path: str, system_info: dict | str | None, instruction_prompt: str) -> tuple[dict | None, dict | None]:
         """
         Internal helper method to handle common image analysis steps.
