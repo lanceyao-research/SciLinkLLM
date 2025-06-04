@@ -8,7 +8,7 @@ import logging
 import numpy as np
 
 # Keep original instructions
-from .instruct import MICROSCOPY_ANALYSIS_INSTRUCTIONS, MICROSCOPY_CLAIMS_INSTRUCTIONS, FFT_NMF_PARAMETER_ESTIMATION_INSTRUCTIONS, DIFFRACTION_ANALYSIS_INSTRUCTIONS
+from .instruct import MICROSCOPY_ANALYSIS_INSTRUCTIONS, MICROSCOPY_CLAIMS_INSTRUCTIONS, FFT_NMF_PARAMETER_ESTIMATION_INSTRUCTIONS
 from .utils import load_image, preprocess_image, convert_numpy_to_jpeg_bytes, normalize_and_convert_to_image_bytes, normalize_and_convert_to_PIL
 from .fft_nmf_analyzer import SlidingFFTNMF
 
@@ -319,7 +319,7 @@ class LocalMicroscopyAnalysisAgent:
              scientific_claims = [] # Treat as empty
 
         for claim in scientific_claims:
-            if isinstance(claim, dict) and all(k in claim for k in ["claim", "scientific_impact", "question", "keywords"]):
+            if isinstance(claim, dict) and all(k in claim for k in ["claim", "scientific_impact", "has_anyone", "keywords"]):
                 # Optionally add validation for keywords being a list of strings etc.
                  valid_claims.append(claim)
             else:

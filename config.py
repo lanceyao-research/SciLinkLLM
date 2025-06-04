@@ -3,11 +3,13 @@ import os
 import logging
 import json
 
-IMAGE_PATH = "data/oxide_catalyst.npy"  # <<< SET PATH TO YOUR IMAGE
-SYSTEM_INFO_PATH = "data/oxide_catalyst.json"  # <<< SET PATH TO ASSOCIATE METADATA
+IMAGE_PATH = "data/GH_stm.tif"  # <<< SET PATH TO YOUR IMAGE
+SYSTEM_INFO_PATH = "data/GH_stm.json"  # <<< SET PATH TO ASSOCIATE METADATA
 
-ANALYSIS_AGENT_MODEL = "gemma3_12B_local"  # Model for analysis step
-GENERATOR_AGENT_MODEL = "gemma3_12B_local"  # Model for structure generation step
+ANALYSIS_AGENT_MODEL = "gemini-2.5-flash-preview-05-20" # Model for analysis step
+GENERATOR_AGENT_MODEL = "gemini-2.5-flash-preview-05-20"  # Model for structure generation step
+VALIDATOR_AGENT_MODEL = "gemini-2.5-flash-preview-05-20" # Model for structure validation
+
 
 GENERATOR_ADDITIONAL_INSTRUCTIONS = "Save the structure in POSCAR format."
 
@@ -29,6 +31,7 @@ GENERATED_SCRIPT_DIR = "generated_scripts"
 
 # --- Agent Parameters ---
 GENERATOR_SCRIPT_TIMEOUT = 180 # Timeout for ASE script execution (seconds)
+MAX_REFINEMENT_CYCLES = 2 # Maximum number of refinement cycles (initial generation + N refinements)
 
 # --- Logging ---
 LOGGING_LEVEL = logging.INFO
@@ -37,6 +40,10 @@ LOGGING_FORMAT = '%(asctime)s - %(levelname)s - %(message)s'
 # --- OWL Literature Agent Configuration ---
 FUTUREHOUSE_API_KEY = os.getenv("FUTUREHOUSE_API_KEY")
 OWL_MAX_WAIT_TIME = 400  # Maximum number of retries for checking OWL task status
+
+# Materials Project API Key
+MP_API_KEY = os.getenv("MP_API_KEY")
+
 
 # --- FFT NMF Configuration ---
 FFT_NMF_SETTINGS = {
@@ -52,3 +59,15 @@ FFT_NMF_SETTINGS = {
     'components': 4,
     'output_dir': "fft_nmf_results"
 }
+
+
+_TOOL_CONFIGS = {
+    "GrainBoundary": {
+        "docs_path": "sim_agents/docs/aimsgb.txt",
+        "keywords": ["grain boundary", "grain-boundary", "gb ", "sigma", "csl", 
+                    "twist", "tilt", "bicrystal", "rotation axis", "aimsgb"],
+        "tool_func": "define_gb_tool"
+    }
+    # Future tools will go here
+}
+

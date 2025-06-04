@@ -1,0 +1,41 @@
+Novelty Assessment Workflow Log
+===================================
+
+2025-06-04 10:50:37,617 - INFO - HTTP Request: POST https://api.platform.futurehouse.org/auth/login "HTTP/1.1 200 OK"
+2025-06-04 10:50:38,601 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/organizations?filter=True "HTTP/1.1 200 OK"
+2025-06-04 10:50:38,602 - INFO - OWLLiteratureAgent initialized with max wait time of 400 seconds.
+2025-06-04 10:50:38,604 - INFO - --- Starting Step 1: Image Analysis for Scientific Claims ---
+2025-06-04 10:50:38,615 - INFO - Attempting to get FFT/NMF parameters from LLM...
+2025-06-04 10:50:43,794 - INFO - LLM successfully suggested parameters: window_size=64, n_components=3
+2025-06-04 10:50:43,794 - INFO - LLM Explanation for FFT/NMF params: The image shows a complex interference pattern with varying orientations and intensities, likely arising from thin film interference. A window size of 64 allows capturing several repetitions of the fringes while remaining computationally manageable. Three components are suggested to represent the background, the dominant interference pattern, and potentially a secondary pattern or noise component related to variations in film thickness or surface roughness.
+2025-06-04 10:50:43,794 - INFO - --- Starting Sliding FFT + NMF Analysis ---
+2025-06-04 10:50:46,285 - INFO - FFT+NMF analysis complete. Components shape: (3, 64, 64), Abundances shape: (3, 54, 54)
+2025-06-04 10:50:46,285 - INFO - Adding 3 NMF components/abundances as PIL images to prompt.
+2025-06-04 10:51:24,368 - INFO - --- Analysis Result Received ---
+2025-06-04 10:51:24,369 - INFO - Claims saved to: novelty_assessment_output/generated_claims.json
+2025-06-04 10:51:24,369 - INFO - --- Starting Step 2: Literature Search with OWL ---
+2025-06-04 10:52:01,144 - INFO - Submitting literature query: Has anyone developed a model to predict the relationship between NMF components and the overall microstructure of polycrystalline materials?
+2025-06-04 10:52:01,887 - INFO - HTTP Request: POST https://api.platform.futurehouse.org/v0.1/crows "HTTP/1.1 202 Accepted"
+2025-06-04 10:52:01,897 - INFO - OWL task created with ID: bbca82c5-3efc-479d-a2b7-490520958140
+2025-06-04 10:52:02,011 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:52:02,014 - INFO - OWL query in progress. Waiting up to 400 seconds for completion.
+2025-06-04 10:52:12,198 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:52:23,911 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:52:34,037 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:52:44,159 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:52:54,296 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:04,424 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:14,581 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:24,778 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:34,912 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:45,053 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:53:55,217 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:05,354 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:15,498 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:25,779 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:36,064 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:46,329 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:54:56,669 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:55:06,956 - INFO - HTTP Request: GET https://api.platform.futurehouse.org/v0.1/trajectories/bbca82c5-3efc-479d-a2b7-490520958140?history=false "HTTP/1.1 200 OK"
+2025-06-04 10:55:07,000 - INFO - OWL query completed after 185.0 seconds.
+2025-06-04 10:55:07,002 - INFO - --- Starting Step 3: Novelty Assessment ---

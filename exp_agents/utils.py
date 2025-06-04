@@ -5,7 +5,7 @@ from io import BytesIO
 import os
 
 
-MAX_IMG_DIM = 256
+MAX_IMG_DIM = 1024
 
 def load_image(image_path):
     """Load an image from file."""
@@ -150,7 +150,7 @@ def normalize_and_convert_to_image_bytes(array: np.ndarray, mode='L', format='JP
 
     except Exception as e:
         raise # Re-raise to be handled by the calling method
-
+        
 def normalize_and_convert_to_PIL(array: np.ndarray, mode='L', log_scale=False):
     """
     Normalizes a 2D numpy array and converts it to image bytes (e.g., grayscale JPEG).
